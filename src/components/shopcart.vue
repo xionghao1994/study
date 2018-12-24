@@ -47,7 +47,7 @@
       data(){
           return{
               seller:{},
-              totalCount0:10
+              totalCount0:0
           }
       },
       computed:{
@@ -199,5 +199,8 @@
     font-size: 12px;
     font-weight: 700;   
  }
-               
+ .enough{
+    background: #00b43c;
+    color:#fff;
+ }              
 </style>

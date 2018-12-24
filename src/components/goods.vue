@@ -17,7 +17,7 @@
        <li v-for="item in goods" class="foodList" ref="foodList">
         <h1>{{item.name}}</h1>
         <ul>
-         <li class="pra" @click="selectFood(food,$event)" v-for="food in item.foods"> 
+         <li class="pra" v-for="food in item.foods"> 
          <div class="icon">
           <img width="57" height="57" :src="food.icon">
          </div>
@@ -33,7 +33,7 @@
                   <!--按钮控件 -->
                   <div class="control">
                    <!--定义子组件标签用于传值 -->
-                   <cartcontrol :food="food" @add="addFood"></cartcontrol>
+                   <cartcontrol :food="food"></cartcontrol>
                   </div>
                   <!--/按钮控件 -->
          </div>
@@ -44,7 +44,7 @@
    </div>
  </div>
   <!--footer -->
-  <shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+  <shopcart ref="shopcart" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
    <!--/footer -->
  </div>
 </template>
@@ -74,6 +74,7 @@ export default {
       this.getgoods()
   },
   computed:{
+    // 左右联动
     currentIndex(){
       for (let i =0; i<this.listHeight.length;i++){
         let height = this.listHeight[i];
@@ -84,25 +85,21 @@ export default {
         }
       }
        return 0;
+    },
+    // 左右联动
+     selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
     }
   },
   methods: {
-    selectFood(food,event){
-      if(!event._constructed){
-        return;
-      }
-      this.selectedFood = food;
-      this.$refs.food.show();
-    },
-    addFood(target){
-      this._drop(target);
-    },
-    _drop(target){
-       // 体验优化,异步执行下落动画
-       this.$nextTick(()=>{
-         this.$refs.shopcart.drop(target);
-       })
-    },
      getgoods(){
         this.$http
             .get('goods')
@@ -136,7 +133,7 @@ export default {
           click:true
         });
         this.foodsScroll = new BScroll(this.$refs.foodWrapper, {
-          //  click: true,
+           click: true,
            probeType: 3
         });
 
@@ -148,7 +145,7 @@ export default {
         });
   },
   // over scroll滑动组件
-
+  // 左右联动
    _calculateHeight() {
         let foodList = this.$refs.foodList;
         let height = 0;
@@ -165,6 +162,7 @@ export default {
         this.meunScroll.scrollToElement(el, 300, 0, -100);
       }
    },
+   // 左右联动
    components:{
      shopcart,
      cartcontrol
