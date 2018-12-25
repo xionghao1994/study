@@ -126,6 +126,11 @@ export default {
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el, 300);
      },
+     _drop(target){
+        this.$nextTick(() =>{
+           this.$refs.shopcart.drop(target);
+        });
+     },
     //  scroll滑动组件
       _initScroll() {
         // 滑动范围 ref="menuWrapper" ref="foodWrapper"
@@ -166,7 +171,13 @@ export default {
    components:{
      shopcart,
      cartcontrol
-   }
+   },
+  //  小球动画添加商品
+    events:{
+      'cart-add'(target){
+        this.drop(target)
+      }
+    }
 }
 </script>
 <style lang="less" scoped> 
