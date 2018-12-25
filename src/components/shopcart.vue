@@ -7,7 +7,7 @@
           <div class="icon" :class="{'highlight':totalCount>0}">
             <i class="icon-shopping_cart" :class="{'highlight':totalCount>0}"></i>
           </div>
-          <div class="num" v-show="totalCount0">{{totalCount0}}</div>
+          <div class="num" v-show="totalCount>0">{{totalCount}}</div>
         </div>
           <div class="price" :class="{'highlight':totalPrice>0}">￥{{totalPrice}}</div>
           <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
@@ -44,12 +44,6 @@
         default: 0
       }
     },
-      data(){
-          return{
-              seller:{},
-              totalCount0:0
-          }
-      },
       computed:{
         totalPrice() {
            let total = 0;
@@ -82,25 +76,7 @@
             return 'enough';
             }
         }
-      },
-      created(){
-          this.getseller()
-      },
-       methods:{
-        getseller(){
-            this.$http
-                .get('seller')
-                .then((res)=>{    
-                    // console.log(res.data.data)
-                    if(res.status === 200){
-                    this.seller =res.data.data
-                    }
-                })
-                .catch((err) =>{
-                    console.log(err);
-                })
-        }
-    }
+      }
   }  
 </script>
 <style lang="stylus" scoped>
