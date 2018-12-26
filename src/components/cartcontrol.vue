@@ -38,7 +38,7 @@ export default{
                 this.food.count++;
             }   
             // 调小球动画添加商品
-            this.$dispatch('cart.add',event.target);
+            this.$emit('cart.add',event.target);
         },
         // 按钮减
         decreaseCart(event){

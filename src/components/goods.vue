@@ -127,6 +127,7 @@ export default {
         this.foodsScroll.scrollToElement(el, 300);
      },
      _drop(target){
+      //  体验优化，异步执行下落动画
         this.$nextTick(() =>{
            this.$refs.shopcart.drop(target);
         });
@@ -174,8 +175,8 @@ export default {
    },
   //  小球动画添加商品
     events:{
-      'cart-add'(target){
-        this.drop(target)
+      'cart.add'(target){
+        this._drop(target)
       }
     }
 }

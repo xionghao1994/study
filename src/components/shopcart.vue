@@ -108,7 +108,7 @@
       },
       methods:{
         drop(el){
-          // console.log('el');
+          console.log('el');
           for(let i =0;i<this.balls.length; i++){
             let ball = this.balls[i];
             if(!ball.show){
@@ -123,7 +123,7 @@
       },
       transitions:{
         drop:{
-          beforeEnter: (el) {
+          beforeEnter(el){
             let count = this.balls.length;
             while (count--){
               let ball = this.balls[count];
@@ -131,7 +131,7 @@
                 let rect = ball.el.getBoundingClientRect();
                 let x = rect.left -32;
                 let y = -(window.innerHeight - rect.top -22);
-                el.style.display = "";
+                el.style.display = '';
                 el.style.webkitTransform =`translate3d(0,${y}px,0)`;
                 el.style.transform = `translate3d(0,${y}px,0)`;
                 let inner = el.getElementsByClassName('inner-hook')[0];
