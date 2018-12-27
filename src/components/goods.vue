@@ -33,7 +33,7 @@
                   <!--按钮控件 -->
                   <div class="control">
                    <!--定义子组件标签用于传值 -->
-                   <cartcontrol :food="food"></cartcontrol>
+                   <cartcontrol @add="addFood" :food="food"></cartcontrol>
                   </div>
                   <!--/按钮控件 -->
          </div>
@@ -126,6 +126,10 @@ export default {
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el, 300);
      },
+    //  接受小球动画传递过来
+      addFood(target) {
+        this._drop(target);
+      },
      _drop(target){
       //  体验优化，异步执行下落动画
         this.$nextTick(() =>{
@@ -175,7 +179,7 @@ export default {
    },
   //  小球动画添加商品
     events:{
-      'cart.add'(target){
+      'add'(target){
         this._drop(target)
       }
     }
