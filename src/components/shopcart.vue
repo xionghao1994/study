@@ -1,5 +1,6 @@
 <template>
- <div class="shopcart">
+<div>
+<div class="shopcart">
   <!--购物车 -->
     <div class="content" @click="toggleList">
       <!--左 -->
@@ -61,12 +62,12 @@
           </div>
         <!--/食物内容 -->
       </div>
-    </transition>
+   </transition>
     <!--/food食物列表 -->
-
-    <!-- <transition name="fade">
-      <div class="list-mask" @click="hideList" v-show="listShow"></div>
-    </transition> -->
+</div>
+<transition name="fade">
+  <div class="list-mask" @click="hideList" v-show="listShow"></div>
+</transition>
  </div>
 </template>
 <script>
@@ -113,7 +114,9 @@
           show:false
         }
         ],
-        dropBalls:[]
+        dropBalls:[],
+        //折叠foods面板首先为true
+        fold:true
       }
     },
     computed:{
@@ -186,16 +189,15 @@
       },
        // foods显示隐藏切换
       toggleList(){
-        console.log(this.fold)
         if(!this.totalCount){
           return;
         }
         this.fold = !this.fold;
       },
-      //  hideList() {
-      //   this.fold = true;
-      // },
-      // 清空
+        hideList() {
+         this.fold = true;
+       },
+       //清空
       empty(){
         this.selectFoods.forEach((food) =>{
           food.count =0;
@@ -270,6 +272,7 @@
     width:100%;
     height:48px;
     color: rgba(255,255,255,0.4);
+   
 }
 .content .content-left{
     flex:1;
@@ -437,22 +440,22 @@
     right: 0;
     bottom: 6px;
 }
-// .list-mask{
-//   position:fixed;
-//   top:0;
-//   left:0;
-//   width:100%;
-//   height:100%;
-//   z-index:40px;
-//   backdrop-filter: blur(10px);
-//   opacity: 1;
-//   background: rgba(7, 17, 27, 0.6);
-// }
-// .list-mask.fade-enter-active, .list-mask.fade-leave-active{
-//   transition: all 0.5s;
-// }  
-// .list-mask.fade-enter, .list-mask.fade-leave-active{
-//   opacity: 0;
-//   background: rgba(7, 17, 27, 0);
-// }
+ .list-mask{
+   position:fixed;
+   top:0;
+   left:0;
+   width:100%;
+   height:100%;
+   z-index:40px;
+   backdrop-filter: blur(10px);
+   opacity: 1;
+   background: rgba(7, 17, 27, 0.6);
+ }
+ .list-mask.fade-enter-active, .list-mask.fade-leave-active{
+   transition: all 0.5s;
+ }  
+ .list-mask.fade-enter, .list-mask.fade-leave-active{
+   opacity: 0;
+   background: rgba(7, 17, 27, 0);
+ }
 </style>
