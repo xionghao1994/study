@@ -9,6 +9,8 @@ function resolve(dir) {
 }
 module.exports = {
   baseUrl: '',
+  // 输出文件目录
+  outputDir: './dist',
   // eslint-loader 是否在保存的时候检查
   lintOnSave: false, 
   // 生产环境是否生成 sourceMap 文件
@@ -54,5 +56,13 @@ module.exports = {
   chainWebpack(config){
     config.resolve.alias
        .set('components',resolve('src/componennts'))
+      //  1024M转Base64
+    // config.module.rule('images')
+    // .test(/\.(png|jpe?g|gif|webp)(\?.*)?$/)
+    // .use('url-loader')
+    // .loader('url-loader')
+    // .tap(options => merge(options, {
+        // limit:1024 /// 文件大小（低于这个值才会base64编码）
+      // }))
   }
 }
