@@ -265,12 +265,12 @@
     bottom:0;
     width:100%;
     height:48px;
-    background-color:#141d27;
 }
 .content{
     display:flex;
     width:100%;
     height:48px;
+    background-color:#141d27;
     color: rgba(255,255,255,0.4);
    
 }
