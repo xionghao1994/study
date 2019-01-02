@@ -1,51 +1,53 @@
 <template>
  <!--此处只能有一个根节点 -->
  <div class="container">
- <div class="goods">
-  <!--左侧商品目录 -->
-   <div class="menu-wrapper" ref="menuWrapper"> 
-      <ul>
-        <li v-for="(item,index) in goods" :class="{'current':currentIndex===index}"
-         @click="selectMenu(index,$event)"  ref="menuList" :key="item.index">
-         <span >{{item.name}}</span>
-        </li>
-      </ul>
-   </div>
-   <!--右侧商品详情 -->
-   <div class="foods-wrapper" ref="foodWrapper">
-      <ul>
-       <li v-for="item in goods" class="foodList" ref="foodList">
-        <h1>{{item.name}}</h1>
-        <ul>
-         <li class="pra" v-for="food in item.foods"> 
-         <div class="icon">
-          <img width="57" height="57" :src="food.icon">
-         </div>
-         <div class="content">
-                  <h2 class="name">{{food.name}}</h2>
-                  <p class="desc">{{food.description}}</p>
-                  <div class="extra">
-                    <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
-                  </div>
-                  <div class="price">
-                    <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-                  </div>
-                  <!--按钮控件 -->
-                  <div class="control">
-                   <!--定义子组件标签用于传值 -->
-                   <cartcontrol @add="addFood" :food="food"></cartcontrol>
-                  </div>
-                  <!--/按钮控件 -->
-         </div>
-         </li>
-        </ul>
-       </li>
-      </ul>
-   </div>
- </div>
-  <!--footer -->
-  <shopcart ref="shopcart" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
-   <!--/footer -->
+    <div class="goods">
+      <!--左侧商品目录 -->
+      <div class="menu-wrapper" ref="menuWrapper"> 
+          <ul>
+            <li v-for="(item,index) in goods" :class="{'current':currentIndex===index}"
+            @click="selectMenu(index,$event)"  ref="menuList" :key="item.index">
+            <span >{{item.name}}</span>
+            </li>
+          </ul>
+      </div>
+      <!--右侧商品详情 -->
+      <div class="foods-wrapper" ref="foodWrapper">
+          <ul>
+          <li v-for="item in goods" class="foodList" ref="foodList">
+            <h1>{{item.name}}</h1>
+            <ul>
+            <li @click="selectFood(food,$event)" class="pra" v-for="food in item.foods"> 
+            <div class="icon">
+              <img width="57" height="57" :src="food.icon">
+            </div>
+            <div class="content">
+                      <h2 class="name">{{food.name}}</h2>
+                      <p class="desc">{{food.description}}</p>
+                      <div class="extra">
+                        <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
+                      </div>
+                      <div class="price">
+                        <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                      </div>
+                      <!--按钮控件 -->
+                      <div class="control">
+                      <!--定义子组件标签用于传值 -->
+                      <cartcontrol @add="addFood" :food="food"></cartcontrol>
+                      </div>
+                      <!--/按钮控件 -->
+            </div>
+            </li>
+            </ul>
+          </li>
+          </ul>
+      </div>
+      <!--footer -->
+        <shopcart ref="shopcart" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice">
+        </shopcart>
+      <!--/footer -->
+    </div>
+    <food @add="addFood" :food="selectedFood" ref="food"></food>
  </div>
 </template>
 <script>
@@ -54,6 +56,8 @@ import BScroll from 'better-scroll';
 import shopcart from '../components/shopcart'
 // 导入按钮组件
 import cartcontrol from '../components/cartcontrol'
+// 导入food组件
+import food from '../components/food'
 
 export default {
   // props接受父组件传递的值
@@ -67,7 +71,7 @@ export default {
       goods:[],
       scrollY: 0,
       listHeight: [],
-    
+      selectedFood:{}
     }
   },
   created(){
@@ -126,6 +130,15 @@ export default {
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el, 300);
      },
+    //  子组件食物详情页
+     selectFood(food,event){
+      //  console.log(food)
+        if (!event._constructed) {
+          return;
+        }
+        this.selectedFood = food;
+        this.$refs.food.show();
+     },
     //  接受小球动画传递过来
       addFood(target) {
         this._drop(target);
@@ -175,7 +188,8 @@ export default {
    // 左右联动
    components:{
      shopcart,
-     cartcontrol
+     cartcontrol,
+     food
    },
   //  小球动画添加商品
     events:{
