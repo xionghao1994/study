@@ -65,9 +65,11 @@
    </transition>
     <!--/food食物列表 -->
 </div>
+<!--遮罩层 -->
 <transition name="fade">
   <div class="list-mask" @click="hideList" v-show="listShow"></div>
 </transition>
+<!--遮罩层 -->
  </div>
 </template>
 <script>
@@ -446,7 +448,7 @@
    left:0;
    width:100%;
    height:100%;
-   z-index:40px;
+   z-index:40;
    backdrop-filter: blur(10px);
    opacity: 1;
    background: rgba(7, 17, 27, 0.6);

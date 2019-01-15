@@ -54,7 +54,7 @@
               <ul v-show="food.ratings && food.ratings.length">
                  <li v-show="needShow(rating.rateType,rating.text)" v-for="rating in food.ratings" class="rating-item">
                     <div class="user">
-                    <span class="name">{{rating.username}}</span>
+                     <span class="name">{{rating.username}}</span>
                      <img class="avatar" width="12" height="12" :src="rating.avatar">
                     </div>
                     <div class="time">{{rating.rateTime | formatDate}}</div>
@@ -73,6 +73,7 @@
 <script>
 import BScroll from 'better-scroll';
 import Vue from 'vue';
+import {formatDate} from '../assets/js/data.js'
 import cartcontrol from '../components/cartcontrol'
 import split from '../components/split'
 import ratingselect from '../components/ratingselect'
@@ -97,7 +98,9 @@ import ratingselect from '../components/ratingselect'
     },
     methods: {
        show(){
-           this.showFlag = true; 
+            this.showFlag = true;
+            this.selectType = ALL;
+            this.onlyContent = true;
         //  调用BScroll滚动  
            this.$nextTick(() =>{
                if(!this.scroll){
@@ -149,6 +152,7 @@ import ratingselect from '../components/ratingselect'
         });
       }
     },
+    // 过滤器
     filters: {
       formatDate(time) {
         let date = new Date(time);
@@ -179,6 +183,7 @@ import ratingselect from '../components/ratingselect'
 .food.move-enter, .food.move-leave-active{
      transform: translate3d(100%, 0, 0);
 }
+// transition侧滑动画结束
 .image-header{
     position: relative;
     width: 100%;
@@ -291,6 +296,59 @@ import ratingselect from '../components/ratingselect'
         font-size: 14px;
         color: rgb(7, 17, 27);
     }
-}    
+} 
+.rating-wrapper{
+     padding: 0 18px;
+   .rating-item{
+      position: relative;
+      padding: 16px 0;
+      border-bottom:1px solid #ccc;
+      .user{
+        position: absolute;
+        right: 0;
+        top: 16px;
+        line-height: 12px;
+        font-size: 0;
+        .name{
+            display: inline-block;
+            margin-right: 6px;
+            vertical-align: top;
+            font-size: 10px;
+            color: rgb(147, 153, 159);
+        }
+        .avatar{
+            border-radius:50%;
+        }
+      }
+      .time{
+        margin-bottom: 6px;
+        line-height: 12px;
+        font-size: 10px;
+        color: rgb(147, 153, 159);
+      }
+      .text{
+        line-height: 16px;
+        font-size: 12px;
+        color: rgb(7, 17, 27); 
+      }
+      .icon-thumb_up, .icon-thumb_down{
+        margin-right: 4px;
+        line-height: 16px;
+        font-size: 12px;  
+     }
+      .icon-thumb_up{
+        color: rgb(0, 160, 220);
+      }
+      .icon-thumb_down{
+        color: rgb(147, 153, 159);
+      }
+   }
+    .no-rating{
+    padding: 16px 0;
+    font-size: 12px;
+    color: rgb(147, 153, 159);
+  }
+}
+
     
 </style>

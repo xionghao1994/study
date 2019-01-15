@@ -46,9 +46,6 @@
              }
          }
      },
-     data(){
-         return{}
-     },
      computed:{
          positives(){
            return this.ratings.filter((rating) =>{
@@ -63,7 +60,7 @@
      },
      methods: {
          select(type, event){
-             if(!event.constructed){
+             if(!event._constructed){
                  return;
              }
              this.$emit('select',type);
